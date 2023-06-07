@@ -1,0 +1,10 @@
+Gustavo
+Teste
+Oi
+
+Nome: Gustavo
+Pontuação: 100
+
+Nome: Ana
+Pontuação: 100
+
