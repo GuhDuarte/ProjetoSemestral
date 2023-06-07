@@ -13,6 +13,7 @@ namespace Jogo{
     class Jogo {
     public:
         std::vector<std::pair<int, int>> corpo;
+        std::vector<std::pair<std::string, int>> rankings;
         std::pair<int, int> comida;
         int pontuacao = 0;
         Jogo();
@@ -23,7 +24,8 @@ namespace Jogo{
 
 
     private:
-        void gravarRanking(const std::string& nome, int pontuacao) const;
+        void gravarRanking(std::string& nome, int pontuacao);
+        void salvarRanking();
         Mapa::Mapa* mapa;
         int largura;
         int altura;

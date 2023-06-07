@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <algorithm>
 
 namespace Jogo{
 
@@ -82,15 +83,23 @@ namespace Jogo{
             }
         }
 
+        rankings.clear();
         gravarRanking(nome, pontuacao);
+        salvarRanking();
         delete mapa;
 
     }
 
-    void Jogo::gravarRanking(const std::string& nome, int pontuacao) const {
+    void Jogo::gravarRanking(std::string& nome, int pontuacao) {
+        rankings.push_back(std::make_pair(nome, pontuacao));
+    }
+
+    void Jogo::salvarRanking() {    
         std::ofstream arquivo("ranking.txt", std::ios_base::app);
         if (arquivo.is_open()) {
-            arquivo << "Nome: " << nome << " " << "Pontuação: " << pontuacao << std::endl;
+            for (const auto& ranking : rankings) {
+                arquivo << "Nome: " << ranking.first << ", Pontuação: " << ranking.second << std::endl;
+            }
             arquivo.close();
             std::cout << "Dados gravados com sucesso no arquivo." << std::endl;
         } else {
