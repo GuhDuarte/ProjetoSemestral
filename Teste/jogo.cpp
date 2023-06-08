@@ -13,10 +13,8 @@ namespace Jogo{
     }
 
     Jogo::Jogo() : mapa(nullptr), largura(0), altura(0) {};
-
-    Jogo::~Jogo() {
-        delete mapa;
-    };
+    Jogo::~Jogo() { };
+    Jogador::Jogador(const std::string& nome, int pontuacao) : nome(nome), pontuacao(pontuacao) {}
 
     void Jogo::novoJogo() {
         std::string nome;
@@ -25,7 +23,8 @@ namespace Jogo{
         std::cout << "=== Novo Jogo ===" << std::endl;
 
         std::cout << "Digite seu nome: ";
-        std::cin >> nome;
+        std::getline(std::cin, nome);
+        std::getline(std::cin, nome);
 
         std::cout << "Digite a largura do mapa: ";
         std::cin >> largura;
@@ -35,7 +34,7 @@ namespace Jogo{
 
         mapa = new Mapa::Mapa(largura, altura);
         bool gameover = false;
-        pontuacao = 0;
+        int pontuacao = 0;
         comida.first = rand() % largura;
         comida.second = rand() % altura;
         int x = largura / 2;
@@ -43,7 +42,9 @@ namespace Jogo{
 
         while (!gameover) {
             limparTela();
-            mapa->desenharMapa(x, y, corpo, comida, pontuacao);
+            if (mapa != nullptr) {
+                mapa->desenharMapa(x, y, corpo, comida, pontuacao);
+            }
 
             char tecla = getch();
 
@@ -91,14 +92,19 @@ namespace Jogo{
     }
 
     void Jogo::gravarRanking(std::string& nome, int pontuacao) {
-        rankings.push_back(std::make_pair(nome, pontuacao));
+        Jogador jogador(nome, pontuacao);
+        rankings.push_back(jogador);
     }
 
-    void Jogo::salvarRanking() {    
+    void Jogo::salvarRanking() { 
+        if (rankings.empty()) {
+            std::cout << "Não há dados de ranking para salvar." << std::endl;
+            return;
+        }   
         std::ofstream arquivo("ranking.txt", std::ios_base::app);
         if (arquivo.is_open()) {
             for (const auto& ranking : rankings) {
-                arquivo << "Nome: " << ranking.first << ", Pontuação: " << ranking.second << std::endl;
+                arquivo << "Nome: " << ranking.nome << ", Pontuação: " << ranking.pontuacao << std::endl;
             }
             arquivo.close();
             std::cout << "Dados gravados com sucesso no arquivo." << std::endl;
@@ -108,14 +114,7 @@ namespace Jogo{
     }
 
     void Jogo::limparCobra(){
-        for (auto i = corpo.begin(); i < corpo.end(); ++i)
-        {
-            corpo.pop_back();
-            for (auto i = corpo.begin(); i < corpo.end(); ++i)
-            {
-                corpo.pop_back();
-            }
-            
-        }                  
+        corpo.clear();
     }
+
 }

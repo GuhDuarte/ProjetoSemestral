@@ -10,12 +10,19 @@
 
 namespace Jogo{
 
+    class Jogador {
+    public:
+        std::string nome;
+        int pontuacao;
+
+        Jogador(const std::string& nome, int pontuacao);
+    };
+
     class Jogo {
     public:
         std::vector<std::pair<int, int>> corpo;
-        std::vector<std::pair<std::string, int>> rankings;
+        std::vector<Jogador> rankings;
         std::pair<int, int> comida;
-        int pontuacao = 0;
         Jogo();
         ~Jogo();
         void jogar();

@@ -2,3 +2,11 @@ teste
 Nome: huhuuh, Pontuação: 2
 Nome: guu, Pontuação: 2
 Nome: jooko, Pontuação: 8
+Nome: teste, Pontuação: 0
+Nome: ana, Pontuação: 7
+Nome: Jota, Pontuação: 2
+Nome: GustavoDoido, Pontuação: 6
+Nome: Jonas, Pontuação: 3
+Nome: , Pontuação: 1
+Nome: , Pontuação: 0
+Nome: Gustavo Duarte, Pontuação: 4
