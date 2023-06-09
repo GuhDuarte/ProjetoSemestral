@@ -29,13 +29,10 @@ namespace Jogo{
         void novoJogo();
         void limparCobra();
 
-
     private:
         void gravarRanking(std::string& nome, int pontuacao);
         void salvarRanking();
-        Mapa::Mapa* mapa;
-        int largura;
-        int altura;
+        // Mapa::Mapa* mapa; 
     };
 }
 #endif

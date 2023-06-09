@@ -12,8 +12,8 @@ namespace Jogo{
         system("cls");
     }
 
-    Jogo::Jogo() : mapa(nullptr), largura(0), altura(0) {};
-    Jogo::~Jogo() { };
+    Jogo::Jogo(){};
+    Jogo::~Jogo() {};
     Jogador::Jogador(const std::string& nome, int pontuacao) : nome(nome), pontuacao(pontuacao) {}
 
     void Jogo::novoJogo() {
@@ -32,7 +32,7 @@ namespace Jogo{
         std::cout << "Digite a altura do mapa: ";
         std::cin >> altura;
 
-        mapa = new Mapa::Mapa(largura, altura);
+        Mapa::Mapa mapa(largura, altura);
         bool gameover = false;
         int pontuacao = 0;
         comida.first = rand() % largura;
@@ -42,9 +42,7 @@ namespace Jogo{
 
         while (!gameover) {
             limparTela();
-            if (mapa != nullptr) {
-                mapa->desenharMapa(x, y, corpo, comida, pontuacao);
-            }
+            mapa.desenharMapa(x, y, corpo, comida, pontuacao);
 
             char tecla = getch();
 
@@ -68,7 +66,7 @@ namespace Jogo{
                     break;
             }
 
-            if (x < 0 || x >= largura || y < 0 || y >= altura || mapa->verificarColisao(corpo, x, y)) {
+            if (x < 0 || x > largura || y < 0 || y > altura || mapa.verificarColisao(corpo, x, y)) {
                 gameover = true;
                 break;
             }
@@ -87,8 +85,6 @@ namespace Jogo{
         rankings.clear();
         gravarRanking(nome, pontuacao);
         salvarRanking();
-        delete mapa;
-
     }
 
     void Jogo::gravarRanking(std::string& nome, int pontuacao) {

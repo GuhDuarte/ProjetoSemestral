@@ -44,6 +44,7 @@ int main() {
                 break;
             default:
                 std::cout << "Opcao invalida. Tente novamente." << std::endl;
+                std::cin.ignore(); 
         }
 
         if (opcao != 3) {
