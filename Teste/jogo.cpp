@@ -41,8 +41,14 @@ namespace Jogo{
             std::cin >> altura;
         }
 
-        std::cout << "Selecione o nível de dificuldade (1-Facil, 2-Dificil): ";
-        std::cin >> dificuldade;
+        while (dificuldade != 1 && dificuldade != 2) {
+            std::cout << "Selecione o nivel de dificuldade (1-Facil, 2-Dificil): ";
+            std::cin >> dificuldade;
+
+            if (dificuldade != 1 && dificuldade != 2) {
+            std::cout << "Opcao invalida! Por favor, selecione 1 para Facil ou 2 para Dificil." << std::endl;
+            }
+        }
 
         Mapa::Mapa mapa(largura, altura);
         bool gameover = false;

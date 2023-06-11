@@ -1,0 +1,4 @@
+Nome: sasa, Pontuacao: 5
+Nome: dasdas, Pontuacao: 4
+Nome: Gu, Pontuacao: 3
+Nome: dasdsa, Pontuacao: 1
