@@ -14,6 +14,7 @@ namespace Jogo{
     public:
         std::string nome;
         int pontuacao;
+        int dificuldade;
 
         Jogador(const std::string& nome, int pontuacao);
     };
@@ -28,11 +29,11 @@ namespace Jogo{
         void jogar();
         void novoJogo();
         void limparCobra();
+        void atualizarRanking();
 
     private:
         void gravarRanking(std::string& nome, int pontuacao);
-        void salvarRanking();
-        // Mapa::Mapa* mapa; 
+        void salvarRanking();  
     };
 }
 #endif

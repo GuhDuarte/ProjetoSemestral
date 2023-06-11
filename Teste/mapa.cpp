@@ -16,8 +16,8 @@ namespace Mapa {
     Mapa::~Mapa() { }
 
     void Mapa::criarMatriz() {
-        altura += 2; // Adiciona 2 linhas para as bordas
-        largura += 2; // Adiciona 2 colunas para as bordas
+        altura += 2;
+        largura += 2; 
         matriz.resize(altura, std::vector<char>(largura, ' '));
 
         for (int i = 0; i < altura; i++) {
@@ -31,7 +31,7 @@ namespace Mapa {
 
     bool Mapa::verificarColisao(const std::vector<std::pair<int, int>>& corpo, int x, int y) {
         return std::find_if(corpo.begin(), corpo.end(), [&](const auto& pos) {
-            return pos.first == x - 1 && pos.second == y - 1;
+            return pos.first == x && pos.second == y;
         }) != corpo.end() || matriz[y][x] == '#';
     }
 
