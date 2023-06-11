@@ -29,9 +29,17 @@ namespace Jogo{
 
         std::cout << "Digite a largura do mapa: ";
         std::cin >> largura;
+        while (largura < 5) {
+            std::cout << "Valor invalido! A largura deve ser maior ou igual a 5. Digite novamente: ";
+            std::cin >> largura;
+        }
 
         std::cout << "Digite a altura do mapa: ";
         std::cin >> altura;
+        while (altura < 5) {
+            std::cout << "Valor inválido! A altura deve ser maior ou igual a 5. Digite novamente: ";
+            std::cin >> altura;
+        }
 
         std::cout << "Selecione o nível de dificuldade (1-Facil, 2-Dificil): ";
         std::cin >> dificuldade;
