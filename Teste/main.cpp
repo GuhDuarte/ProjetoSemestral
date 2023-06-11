@@ -4,7 +4,7 @@
 #include <fstream>
 
 void lerRanking() {
-    std::cout << "=== Ranking ===" << std::endl;
+    std::cout << "======= Ranking =======" << std::endl;
     std::ifstream arquivo("ranking.txt");
     if (arquivo.is_open()) {
         std::string linha;
@@ -15,6 +15,7 @@ void lerRanking() {
     } else {
         std::cout << "Erro ao abrir o arquivo." << std::endl;
     }
+    std::cout << "=======================" << std::endl;
 }
 
 int main() {
@@ -38,6 +39,7 @@ int main() {
                 break;
             case 2:
                 lerRanking();
+                std::cout << "\n" << std::endl;
                 break;
             case 3:
                 std::cout << "Fechando o programa..." << std::endl;

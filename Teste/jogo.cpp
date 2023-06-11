@@ -49,7 +49,6 @@ namespace Jogo{
             mapa.desenharMapa(x, y, corpo, comida, pontuacao);
 
             char tecla = getch();
-
             switch (tecla) {
                 case 'w':
                     y--;
@@ -86,9 +85,9 @@ namespace Jogo{
             }
 
             if (dificuldade == 1)
-                int velocidade = 100;
+                velocidade = 100;
             else 
-                int velocidade = 1;
+                velocidade = 1;
             std::this_thread::sleep_for(std::chrono::milliseconds(velocidade));
         }
 
@@ -115,31 +114,32 @@ namespace Jogo{
             while (std::getline(arquivoAnterior, linha)) {
                 std::string nome;
                 int pontuacao;
-
-                std::size_t separador = linha.find(',');
-                if (separador != std::string::npos) {
-                    nome = linha.substr(6, separador - 6); // Ignorar "Nome: "
-                    pontuacao = std::stoi(linha.substr(separador + 14)); // Ignorar ", Pontuação: "
-                    Jogador jogador{nome, pontuacao};
-                    rankingAtualizado.push_back(jogador);
+                try
+                {              
+                    std::size_t separador = linha.find(',');
+                    if (separador != std::string::npos) {
+                        nome = linha.substr(6, separador - 6);
+                        pontuacao = std::stoi(linha.substr(separador + 12));
+                        Jogador jogador{nome, pontuacao};
+                        rankingAtualizado.push_back(jogador);
+                    }
+                } catch (const std::invalid_argument& e) {
+                    std::cout << "Erro: Conversao invalida da pontuacao. Linha do arquivo: " << linha << std::endl;
                 }
             }
             arquivoAnterior.close();
         }
 
-        // Adicionar os novos jogadores ao ranking atualizado
         rankingAtualizado.insert(rankingAtualizado.end(), rankings.begin(), rankings.end());
 
-        // Ordenar o ranking atualizado
         std::sort(rankingAtualizado.begin(), rankingAtualizado.end(), [](const Jogador& jogador1, const Jogador& jogador2) {
             return jogador1.pontuacao > jogador2.pontuacao;
         });
 
-        // Salvar o ranking atualizado no arquivo
         std::ofstream arquivoAtualizado("ranking.txt", std::ios_base::trunc);
         if (arquivoAtualizado.is_open()) {
             for (const auto& ranking : rankingAtualizado) {
-                arquivoAtualizado << "Nome: " << ranking.nome << ", Pontuação: " << ranking.pontuacao << std::endl;
+                arquivoAtualizado << "Nome: " << ranking.nome << ", Pontuacao: " << ranking.pontuacao << std::endl;
             }
             arquivoAtualizado.close();
             std::cout << "Dados gravados com sucesso no arquivo." << std::endl;

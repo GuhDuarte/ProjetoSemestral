@@ -1,7 +1,0 @@
-Nome: athletico, Pontuação: 16
-Nome: Pai, Pontuação: 15
-Nome: lider, Pontuação: 10
-Nome: Veio, Pontuação: 6
-Nome: guu, Pontuação: 2
-Nome: Bruno, Pontuação: 1
-Nome: , Pontuação: 0
