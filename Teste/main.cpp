@@ -2,9 +2,10 @@
 #include <string>
 #include "jogo.h"
 #include <fstream>
+#include <limits>
 
 void lerRanking() {
-    std::cout << "=== Ranking ===" << std::endl;
+    std::cout << "======= Ranking =======" << std::endl;
     std::ifstream arquivo("ranking.txt");
     if (arquivo.is_open()) {
         std::string linha;
@@ -15,12 +16,12 @@ void lerRanking() {
     } else {
         std::cout << "Erro ao abrir o arquivo." << std::endl;
     }
+    std::cout << "=======================" << std::endl;
 }
 
 int main() {
     int opcao;
-    using Jogo::Jogo;
-    Jogo jogo;
+    Jogo::Jogo jogo;
 
     do {
         std::cout << "===== Snake Game =====" << std::endl;
@@ -31,6 +32,13 @@ int main() {
         std::cout << "Escolha uma opcao: ";
         std::cin >> opcao;
 
+        if (std::cin.fail()) {
+            std::cout << "Entrada invalida. Tente novamente." << std::endl;
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            continue;
+        }
+
         switch (opcao) {
             case 1:
                 jogo.novoJogo();
@@ -38,12 +46,14 @@ int main() {
                 break;
             case 2:
                 lerRanking();
+                std::cout << "\n" << std::endl;
                 break;
             case 3:
                 std::cout << "Fechando o programa..." << std::endl;
                 break;
             default:
                 std::cout << "Opcao invalida. Tente novamente." << std::endl;
+                std::cin.ignore(); 
         }
 
         if (opcao != 3) {

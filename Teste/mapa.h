@@ -16,7 +16,6 @@ namespace Mapa {
         int altura;
         int largura;
         std::vector<std::vector<char>> matriz;
-
         void criarMatriz();
     };
 }

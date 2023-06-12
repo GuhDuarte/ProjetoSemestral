@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <algorithm>
+#include <thread>
 
 namespace Jogo{
 
@@ -11,41 +13,56 @@ namespace Jogo{
         system("cls");
     }
 
-    Jogo::Jogo() : mapa(nullptr), largura(0), altura(0) {};
-
-    Jogo::~Jogo() {
-        delete mapa;
-    };
+    Jogo::Jogo(){};
+    Jogo::~Jogo() {};
+    Jogador::Jogador(const std::string& nome, int pontuacao) : nome(nome), pontuacao(pontuacao) {}
 
     void Jogo::novoJogo() {
         std::string nome;
-        int largura, altura;
+        int largura, altura, dificuldade, velocidade;
 
         std::cout << "=== Novo Jogo ===" << std::endl;
 
         std::cout << "Digite seu nome: ";
-        std::cin >> nome;
+        std::getline(std::cin, nome);
+        std::getline(std::cin, nome);
 
         std::cout << "Digite a largura do mapa: ";
         std::cin >> largura;
+        while (largura < 5) {
+            std::cout << "Valor invalido! A largura deve ser maior ou igual a 5. Digite novamente: ";
+            std::cin >> largura;
+        }
 
         std::cout << "Digite a altura do mapa: ";
         std::cin >> altura;
+        while (altura < 5) {
+            std::cout << "Valor inválido! A altura deve ser maior ou igual a 5. Digite novamente: ";
+            std::cin >> altura;
+        }
 
-        mapa = new Mapa::Mapa(largura, altura);
+        while (dificuldade != 1 && dificuldade != 2) {
+            std::cout << "Selecione o nivel de dificuldade (1-Facil, 2-Dificil): ";
+            std::cin >> dificuldade;
+
+            if (dificuldade != 1 && dificuldade != 2) {
+            std::cout << "Opcao invalida! Por favor, selecione 1 para Facil ou 2 para Dificil." << std::endl;
+            }
+        }
+
+        Mapa::Mapa mapa(largura, altura);
         bool gameover = false;
-        pontuacao = 0;
-        comida.first = rand() % largura;
-        comida.second = rand() % altura;
+        int pontuacao = 0;
+        comida.first = 1 + rand() % (largura - 2);
+        comida.second = 1 + rand() % (altura - 4);
         int x = largura / 2;
         int y = altura / 2;
 
         while (!gameover) {
             limparTela();
-            mapa->desenharMapa(x, y, corpo, comida, pontuacao);
+            mapa.desenharMapa(x, y, corpo, comida, pontuacao);
 
             char tecla = getch();
-
             switch (tecla) {
                 case 'w':
                     y--;
@@ -66,7 +83,7 @@ namespace Jogo{
                     break;
             }
 
-            if (x < 0 || x >= largura || y < 0 || y >= altura || mapa->verificarColisao(corpo, x, y)) {
+            if (x < 0 || x > largura || y < 0 || y > altura || mapa.verificarColisao(corpo, x, y)) {
                 gameover = true;
                 break;
             }
@@ -75,23 +92,70 @@ namespace Jogo{
 
             if (x == comida.first && y == comida.second) {
                 pontuacao++;
-                comida.first = rand() % largura;
-                comida.second = rand() % altura;
+                comida.first = 1 + rand() % (largura - 2);
+                comida.second = 1 + rand() % (altura - 4);
             } else {
                 corpo.erase(corpo.begin());
             }
+
+            if (dificuldade == 1)
+                velocidade = 100;
+            else 
+                velocidade = 1;
+            std::this_thread::sleep_for(std::chrono::milliseconds(velocidade));
         }
-
+        std::cout << "Fim de Jogo! Sua pontuacao foi: " << pontuacao << std::endl;
+        rankings.clear();
         gravarRanking(nome, pontuacao);
-        delete mapa;
-
+        salvarRanking();
     }
 
-    void Jogo::gravarRanking(const std::string& nome, int pontuacao) const {
-        std::ofstream arquivo("ranking.txt", std::ios_base::app);
-        if (arquivo.is_open()) {
-            arquivo << "Nome: " << nome << " " << "Pontuação: " << pontuacao << std::endl;
-            arquivo.close();
+    void Jogo::gravarRanking(std::string& nome, int pontuacao) {
+        Jogador jogador(nome, pontuacao);
+        rankings.push_back(jogador);
+    }
+
+    void Jogo::salvarRanking() {
+        if (rankings.empty()) {
+            std::cout << "Não há dados de ranking para salvar." << std::endl;
+            return;
+        }
+
+        std::vector<Jogador> rankingAtualizado;
+        std::ifstream arquivoAnterior("ranking.txt");
+        if (arquivoAnterior.is_open()) {
+            std::string linha;
+            while (std::getline(arquivoAnterior, linha)) {
+                std::string nome;
+                int pontuacao;
+                try
+                {              
+                    std::size_t separador = linha.find(',');
+                    if (separador != std::string::npos) {
+                        nome = linha.substr(6, separador - 6);
+                        pontuacao = std::stoi(linha.substr(separador + 12));
+                        Jogador jogador{nome, pontuacao};
+                        rankingAtualizado.push_back(jogador);
+                    }
+                } catch (const std::invalid_argument& e) {
+                    std::cout << "Erro: Conversao invalida da pontuacao. Linha do arquivo: " << linha << std::endl;
+                }
+            }
+            arquivoAnterior.close();
+        }
+
+        rankingAtualizado.insert(rankingAtualizado.end(), rankings.begin(), rankings.end());
+
+        std::sort(rankingAtualizado.begin(), rankingAtualizado.end(), [](const Jogador& jogador1, const Jogador& jogador2) {
+            return jogador1.pontuacao > jogador2.pontuacao;
+        });
+
+        std::ofstream arquivoAtualizado("ranking.txt", std::ios_base::trunc);
+        if (arquivoAtualizado.is_open()) {
+            for (const auto& ranking : rankingAtualizado) {
+                arquivoAtualizado << "Nome: " << ranking.nome << ", Pontuacao: " << ranking.pontuacao << std::endl;
+            }
+            arquivoAtualizado.close();
             std::cout << "Dados gravados com sucesso no arquivo." << std::endl;
         } else {
             std::cout << "Erro ao abrir o arquivo." << std::endl;
@@ -99,14 +163,7 @@ namespace Jogo{
     }
 
     void Jogo::limparCobra(){
-        for (auto i = corpo.begin(); i < corpo.end(); ++i)
-        {
-            corpo.pop_back();
-            for (auto i = corpo.begin(); i < corpo.end(); ++i)
-            {
-                corpo.pop_back();
-            }
-            
-        }                  
+        corpo.clear();
     }
+
 }
