@@ -34,8 +34,8 @@ int main() {
 
         if (std::cin.fail()) {
             std::cout << "Entrada invalida. Tente novamente." << std::endl;
-            std::cin.clear(); // Limpar o estado de erro
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpar o buffer de entrada
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             continue;
         }
 
