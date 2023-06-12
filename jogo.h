@@ -4,26 +4,36 @@
 #include "mapa.h"
 #include <utility>
 #include <string>
+#include <algorithm>
+#include <vector>
 
 
 namespace Jogo{
-    // class Cobra;
+
+    class Jogador {
+    public:
+        std::string nome;
+        int pontuacao;
+        int dificuldade;
+
+        Jogador(const std::string& nome, int pontuacao);
+    };
 
     class Jogo {
     public:
+        std::vector<std::pair<int, int>> corpo;
+        std::vector<Jogador> rankings;
+        std::pair<int, int> comida;
         Jogo();
         ~Jogo();
         void jogar();
         void novoJogo();
-        // std::pair<std::string, int> obterNomePontuacao() const;
-
+        void limparCobra();
+        void atualizarRanking();
 
     private:
-        void gravarRanking(const std::string& nome, int pontuacao) const;
-        Mapa::Mapa* mapa;
-        // Cobra* cobra;
-        int largura;
-        int altura;
+        void gravarRanking(std::string& nome, int pontuacao);
+        void salvarRanking();  
     };
 }
 #endif

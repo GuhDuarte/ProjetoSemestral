@@ -2,34 +2,10 @@
 #include <string>
 #include "jogo.h"
 #include <fstream>
+#include <limits>
 
-
-// void verRanking() {
-//     std::cout << "=== Ranking ===" << std::endl;
-//     int c;
-//     FILE *file;
-//     file = fopen("Ranking.txt", "r");
-
-//     if(file){
-//         while ((c = getc(file)) != EOF)
-//         {
-//             printf("%c", c);
-//         }
-//     fclose(file);
-//     }
-//     // std::cout << "=== Ranking ===" << std::endl;
-//     // std::ofstream arquivo("ranking.txt");
-//     //     if (arquivo.is_open()) {
-//     //         arquivo << "Nome: " << nome << std::endl;
-//     //         arquivo << "Pontuação: " << pontuacao << std::endl;
-//     //         arquivo.close();
-//     //         std::cout << "Dados gravados com sucesso no arquivo." << std::endl;
-//     //     } else {
-//     //         std::cout << "Erro ao abrir o arquivo." << std::endl;
-//     //     }
-// }
 void lerRanking() {
-    std::cout << "=== Ranking ===" << std::endl;
+    std::cout << "======= Ranking =======" << std::endl;
     std::ifstream arquivo("ranking.txt");
     if (arquivo.is_open()) {
         std::string linha;
@@ -40,13 +16,12 @@ void lerRanking() {
     } else {
         std::cout << "Erro ao abrir o arquivo." << std::endl;
     }
+    std::cout << "=======================" << std::endl;
 }
 
 int main() {
     int opcao;
-    // Jogo* jogo = nullptr;
-    using Jogo::Jogo;
-    Jogo jogo;
+    Jogo::Jogo jogo;
 
     do {
         std::cout << "===== Snake Game =====" << std::endl;
@@ -57,27 +32,33 @@ int main() {
         std::cout << "Escolha uma opcao: ";
         std::cin >> opcao;
 
+        if (std::cin.fail()) {
+            std::cout << "Entrada invalida. Tente novamente." << std::endl;
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            continue;
+        }
+
         switch (opcao) {
             case 1:
-                // if (jogo != nullptr) {
-                //     delete jogo;
-                // }
-                // jogo = new Jogo();
                 jogo.novoJogo();
+                jogo.limparCobra();
                 break;
             case 2:
                 lerRanking();
+                std::cout << "\n" << std::endl;
                 break;
             case 3:
                 std::cout << "Fechando o programa..." << std::endl;
                 break;
             default:
                 std::cout << "Opcao invalida. Tente novamente." << std::endl;
+                std::cin.ignore(); 
         }
 
         if (opcao != 3) {
             std::cout << "Pressione Enter para voltar ao menu principal.";
-            std::cin.ignore(); // Aguardar a entrada do usuário (pressionar Enter)
+            std::cin.ignore(); 
         }
 
         std::cout << std::endl;
