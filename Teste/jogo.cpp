@@ -104,7 +104,7 @@ namespace Jogo{
                 velocidade = 1;
             std::this_thread::sleep_for(std::chrono::milliseconds(velocidade));
         }
-
+        std::cout << "Fim de Jogo! Sua pontuacao foi: " << pontuacao << std::endl;
         rankings.clear();
         gravarRanking(nome, pontuacao);
         salvarRanking();

@@ -2,6 +2,7 @@
 #include <string>
 #include "jogo.h"
 #include <fstream>
+#include <limits>
 
 void lerRanking() {
     std::cout << "======= Ranking =======" << std::endl;
@@ -20,8 +21,7 @@ void lerRanking() {
 
 int main() {
     int opcao;
-    using Jogo::Jogo;
-    Jogo jogo;
+    Jogo::Jogo jogo;
 
     do {
         std::cout << "===== Snake Game =====" << std::endl;
@@ -31,6 +31,13 @@ int main() {
         std::cout << "3. Fechar" << std::endl;
         std::cout << "Escolha uma opcao: ";
         std::cin >> opcao;
+
+        if (std::cin.fail()) {
+            std::cout << "Entrada invalida. Tente novamente." << std::endl;
+            std::cin.clear(); // Limpar o estado de erro
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpar o buffer de entrada
+            continue;
+        }
 
         switch (opcao) {
             case 1:
