@@ -21,7 +21,6 @@ namespace Jogo{
 
     class Jogo {
     public:
-        std::vector<std::pair<int, int>> corpo;
         std::vector<Jogador> rankings;
         std::pair<int, int> comida;
         Jogo();

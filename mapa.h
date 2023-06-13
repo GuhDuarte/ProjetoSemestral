@@ -4,13 +4,21 @@
 #include <vector>
 
 namespace Mapa {
+
+    class Posicao {
+    public:
+        int x;
+        int y;
+
+        Posicao(int x, int y) : x(x), y(y) {}
+    };
+
     class Mapa {
     public:
         Mapa(int largura, int altura);
-        Mapa();
         ~Mapa();
-        void desenharMapa(int x, int y, const std::vector<std::pair<int, int>>& corpo, const std::pair<int, int>& comida, int pontuacao);
-        bool verificarColisao(const std::vector<std::pair<int, int>>& corpo, int x, int y);
+        void desenharMapa(int x, int y, const std::vector<Posicao>& corpo, const std::pair<int, int>& comida, int pontuacao);
+        bool verificarColisao(const std::vector<Posicao>& corpo, int x, int y);
 
     private:
         int altura;
@@ -18,6 +26,7 @@ namespace Mapa {
         std::vector<std::vector<char>> matriz;
         void criarMatriz();
     };
+
 }
 
 #endif

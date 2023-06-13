@@ -55,19 +55,21 @@ namespace Jogo{
         int pontuacao = 0;
         comida.first = 1 + rand() % (largura - 2);
         comida.second = 1 + rand() % (altura - 4);
-        int x = largura / 2;
-        int y = altura / 2;
+        std::vector<Mapa::Posicao> corpo;
+        corpo.push_back(Mapa::Posicao(largura / 2, altura / 2));
+            
+        int x = corpo[0].x;
+        int y = corpo[0].y;
+        char tecla = 'd';
 
         while (!gameover) {
             limparTela();
             mapa.desenharMapa(x, y, corpo, comida, pontuacao);
-
-
-            x++;
-            if (x >= largura)
-            x = 1;
             
-            char tecla = getch();
+            if (_kbhit()) {
+                tecla = _getch();
+            }
+
             switch (tecla) {
                 case 'w':
                     y--;
@@ -93,14 +95,14 @@ namespace Jogo{
                 break;
             }
 
-            corpo.push_back(std::make_pair(x, y));
+            corpo.insert(corpo.begin(), {x, y});
 
             if (x == comida.first && y == comida.second) {
                 pontuacao++;
                 comida.first = 1 + rand() % (largura - 2);
                 comida.second = 1 + rand() % (altura - 4);
             } else {
-                corpo.erase(corpo.begin());
+                corpo.pop_back();
             }
 
             if (dificuldade == 1)
@@ -168,6 +170,7 @@ namespace Jogo{
     }
 
     void Jogo::limparCobra(){
-        corpo.clear();
+        // corpo.clear();
+
     }
 }
