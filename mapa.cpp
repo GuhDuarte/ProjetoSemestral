@@ -36,12 +36,11 @@ namespace Mapa {
     }
 
     void Mapa::desenharMapa(int x, int y, const std::vector<std::pair<int, int>>& corpo, const std::pair<int, int>& comida, int pontuacao) {
-    std::cout << "Pontuacao: " << pontuacao << std::endl;
-
+        std::cout << "Pontuacao: " << pontuacao << std::endl;
         for (int i = 0; i < altura; ++i) {
             for (int j = 0; j < largura; ++j) {
                 if (i == 0 || i == altura - 1 || j == 0 || j == largura - 1) {
-                    std::cout << '#'; // 
+                    std::cout << '#'; 
                 } else if (i == y && j == x) {
                     std::cout << '*';
                 } else if (std::find_if(corpo.begin(), corpo.end(), [&](const auto& pos) {

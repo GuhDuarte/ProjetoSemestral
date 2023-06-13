@@ -37,7 +37,7 @@ namespace Jogo{
         std::cout << "Digite a altura do mapa: ";
         std::cin >> altura;
         while (altura < 5) {
-            std::cout << "Valor inválido! A altura deve ser maior ou igual a 5. Digite novamente: ";
+            std::cout << "Valor invalido! A altura deve ser maior ou igual a 5. Digite novamente: ";
             std::cin >> altura;
         }
 
@@ -62,6 +62,11 @@ namespace Jogo{
             limparTela();
             mapa.desenharMapa(x, y, corpo, comida, pontuacao);
 
+
+            x++;
+            if (x >= largura)
+            x = 1;
+            
             char tecla = getch();
             switch (tecla) {
                 case 'w':
@@ -165,5 +170,4 @@ namespace Jogo{
     void Jogo::limparCobra(){
         corpo.clear();
     }
-
 }
