@@ -4,21 +4,29 @@
 #include <vector>
 #include <string>
 
-
 namespace Mapa {
 
     Mapa::Mapa(int largura, int altura) : largura(largura), altura(altura) {
         criarMatriz();
     }
 
-    Mapa::~Mapa() {}
+    Mapa::~Mapa() {};
 
-    int Mapa::setAltura(int a){
-        return this->altura = a;
+
+    int Mapa::getLargura() const {
+        return this->largura;
     }
 
-    int Mapa::setLargura(int l){
-        return this->altura = l;
+    int Mapa::getAltura() const {
+        return altura;
+    }
+
+    void Mapa::setAltura(int a){
+        this->altura = a;
+    }
+
+    void Mapa::setLargura(int l){
+        this->largura = l;
     }
 
 

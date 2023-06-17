@@ -61,7 +61,7 @@ namespace Jogo{
         int x = corpo[0].x;
         int y = corpo[0].y;
         char tecla = 'd';
-
+        
         while (!gameover) {
             limparTela();
             mapa.desenharMapa(x, y, corpo, comida, pontuacao);
@@ -106,15 +106,15 @@ namespace Jogo{
             }
 
             if (dificuldade == 1)
-                velocidade = 100;
+                velocidade = 150;
             else 
-                velocidade = 1;
+                velocidade = 20;
             std::this_thread::sleep_for(std::chrono::milliseconds(velocidade));
         }
         std::cout << "Fim de Jogo! Sua pontuacao foi: " << pontuacao << std::endl;
-        rankings.clear();
+        // rankings.clear();
         gravarRanking(nome, pontuacao);
-        salvarRanking();
+        // salvarRanking();
     }
 
     void Jogo::gravarRanking(std::string& nome, int pontuacao) {
@@ -124,7 +124,7 @@ namespace Jogo{
 
     void Jogo::salvarRanking() {
         if (rankings.empty()) {
-            std::cout << "Não há dados de ranking para salvar." << std::endl;
+            std::cout << "Nao ha dados de ranking para salvar." << std::endl;
             return;
         }
 
@@ -167,10 +167,5 @@ namespace Jogo{
         } else {
             std::cout << "Erro ao abrir o arquivo." << std::endl;
         }
-    }
-
-    void Jogo::limparCobra(){
-        // corpo.clear();
-
     }
 }

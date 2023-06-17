@@ -25,14 +25,12 @@ namespace Jogo{
         std::pair<int, int> comida;
         Jogo();
         ~Jogo();
-        void jogar();
         void novoJogo();
-        void limparCobra();
         void atualizarRanking();
+        void salvarRanking();  
 
     private:
         void gravarRanking(std::string& nome, int pontuacao);
-        void salvarRanking();  
     };
 }
 #endif

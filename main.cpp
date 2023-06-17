@@ -45,9 +45,9 @@ int main() {
                     jogo = new Jogo::Jogo();
                 }
                 jogo->novoJogo();
-                jogo->limparCobra();
                 break;
             case 2:
+                jogo->salvarRanking();
                 lerRanking();
                 std::cout << "\n" << std::endl;
                 break;
