@@ -15,10 +15,15 @@ namespace Mapa {
 
     class Mapa {
     public:
+        Mapa();
         Mapa(int largura, int altura);
         ~Mapa();
         void desenharMapa(int x, int y, const std::vector<Posicao>& corpo, const std::pair<int, int>& comida, int pontuacao);
         bool verificarColisao(const std::vector<Posicao>& corpo, int x, int y);
+        void getAltura();
+        void getLargura();
+        int setAltura(int a);
+        int setLargura(int l);
 
     private:
         int altura;

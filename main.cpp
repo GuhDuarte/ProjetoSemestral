@@ -21,7 +21,7 @@ void lerRanking() {
 
 int main() {
     int opcao;
-    Jogo::Jogo jogo;
+    Jogo::Jogo* jogo = nullptr;
 
     do {
         std::cout << "===== Snake Game =====" << std::endl;
@@ -41,8 +41,11 @@ int main() {
 
         switch (opcao) {
             case 1:
-                jogo.novoJogo();
-                jogo.limparCobra();
+                if (jogo == nullptr) {
+                    jogo = new Jogo::Jogo();
+                }
+                jogo->novoJogo();
+                jogo->limparCobra();
                 break;
             case 2:
                 lerRanking();
@@ -64,5 +67,6 @@ int main() {
         std::cout << std::endl;
     } while (opcao != 3);
 
+    delete jogo;
     return 0;
 }

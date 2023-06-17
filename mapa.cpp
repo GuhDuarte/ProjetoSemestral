@@ -13,6 +13,21 @@ namespace Mapa {
 
     Mapa::~Mapa() {}
 
+    int Mapa::setAltura(int a){
+        return this->altura = a;
+    }
+
+    int Mapa::setLargura(int l){
+        return this->altura = l;
+    }
+
+
+    bool Mapa::verificarColisao(const std::vector<Posicao>& corpo, int x, int y) {
+        return std::find_if(corpo.begin() + 1, corpo.end(), [&](const auto& pos) {
+            return pos.x == x && pos.y == y;
+        }) != corpo.end() || matriz[y][x] == '#';
+    }
+
     void Mapa::criarMatriz() {
         altura += 2;
         largura += 2;
@@ -25,12 +40,6 @@ namespace Mapa {
                 }
             }
         }
-    }
-
-    bool Mapa::verificarColisao(const std::vector<Posicao>& corpo, int x, int y) {
-        return std::find_if(corpo.begin() + 1, corpo.end(), [&](const auto& pos) {
-            return pos.x == x && pos.y == y;
-        }) != corpo.end() || matriz[y][x] == '#';
     }
 
     void Mapa::desenharMapa(int x, int y, const std::vector<Posicao>& corpo, const std::pair<int, int>& comida, int pontuacao) {

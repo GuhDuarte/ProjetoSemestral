@@ -2,9 +2,9 @@
 #include <conio.h>
 #include "mapa.h"
 #include <iostream>
-#include <string>
 #include <fstream>
 #include <algorithm>
+#include <string>
 #include <thread>
 
 namespace Jogo{
