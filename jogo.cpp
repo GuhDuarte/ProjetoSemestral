@@ -6,12 +6,26 @@
 #include <algorithm>
 #include <string>
 #include <thread>
+#include <windows.h>
 
 namespace Jogo{
 
+    // void limparTela() {
+    //     system("cls");
+    // }
     void limparTela() {
-        system("cls");
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        COORD coordScreen = { 0, 0 };
+        DWORD cCharsWritten;
+        CONSOLE_SCREEN_BUFFER_INFO csbi;
+        DWORD dwConSize;
+
+        GetConsoleScreenBufferInfo(hConsole, &csbi);
+        dwConSize = csbi.dwSize.X * csbi.dwSize.Y;
+        FillConsoleOutputCharacter(hConsole, TEXT(' '), dwConSize, coordScreen, &cCharsWritten);
+        SetConsoleCursorPosition(hConsole, coordScreen);
     }
+
 
     Jogo::Jogo(){};
     Jogo::~Jogo() {};
@@ -49,7 +63,7 @@ namespace Jogo{
             std::cout << "Opcao invalida! Por favor, selecione 1 para Facil ou 2 para Dificil." << std::endl;
             }
         }
-
+        limparTela();
         Mapa::Mapa mapa(largura, altura);
         bool gameover = false;
         int pontuacao = 0;
@@ -63,7 +77,6 @@ namespace Jogo{
         char tecla = 'd';
         
         while (!gameover) {
-            limparTela();
             mapa.desenharMapa(x, y, corpo, comida, pontuacao);
             
             if (_kbhit()) {
@@ -100,7 +113,7 @@ namespace Jogo{
             if (x == comida.first && y == comida.second) {
                 pontuacao++;
                 comida.first = 1 + rand() % (largura - 2);
-                comida.second = 1 + rand() % (altura - 4);
+                comida.second = 1 + rand() % (altura - 2);
             } else {
                 corpo.pop_back();
             }
@@ -110,6 +123,7 @@ namespace Jogo{
             else 
                 velocidade = 20;
             std::this_thread::sleep_for(std::chrono::milliseconds(velocidade));
+            limparTela();
         }
         std::cout << "Fim de Jogo! Sua pontuacao foi: " << pontuacao << std::endl;
         // rankings.clear();
@@ -167,5 +181,6 @@ namespace Jogo{
         } else {
             std::cout << "Erro ao abrir o arquivo." << std::endl;
         }
+        rankings.clear();
     }
 }
